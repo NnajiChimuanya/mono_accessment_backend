@@ -1,4 +1,5 @@
-
+import dotenv from "dotenv"
+dotenv.config()
 import express, { Request, Response } from "express"
 import authRouter from "./routes/authRouter.js"
 import cookieParser from "cookie-parser"
@@ -10,7 +11,7 @@ app.use(cookieParser())
 
 
 try {
-    mongoose.connect("mongodb://localhost:27017")
+    mongoose.connect("mongodb://localhost:27017/mono")
     console.log("Connected")
 } catch (err) {
     console.log(err)

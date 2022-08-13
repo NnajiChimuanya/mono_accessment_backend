@@ -14,13 +14,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.signup = void 0;
 const userModel_1 = __importDefault(require("../model/userModel"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const createToken = (id) => {
+    return jsonwebtoken_1.default.sign({ id }, "76149494ABMICTU", {
+        expiresIn: 3 * 24 * 60 * 60,
+    });
+};
+const handleError = (err) => {
+    let error = { email: "", password: "" };
+    //debugging for viewing error
+    //console.log(err.message, err.code);
+    if (err.code === 11000) {
+        error["email"] = "email already exists";
+    }
+    if (err.message === " Email not found") {
+        error["email"] = "email does not exist";
+    }
+    if (err.message === "Invalid password") {
+        error["password"] = "invalid password";
+    }
+    if (err.message.includes("Please enter password")) {
+        error["password"] = "Enter password password";
+    }
+    if (err.message.includes("Email already exists")) {
+        error["email"] = "Email already exists";
+    }
+    return error;
+};
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    const user = yield userModel_1.default.create({
-        email,
-        password
-    });
-    res.json(user);
+    try {
+        const newUser = yield userModel_1.default.create({
+            email,
+            password,
+        });
+        const token = createToken(newUser._id);
+        res.cookie("token", token, {
+            httpOnly: true,
+            maxAge: 1000 * 3 * 24 * 60 * 60,
+        });
+        res.status(200).json({ user: newUser });
+    }
+    catch (error) {
+        let errors = handleError(error);
+        res.status(401).json({ errors });
+    }
 });
 exports.signup = signup;
 const login = (req, res) => {
