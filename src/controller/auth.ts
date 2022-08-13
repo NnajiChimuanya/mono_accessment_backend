@@ -4,6 +4,7 @@ import User from "../model/userModel";
 import jwt from "jsonwebtoken";
 import { Document } from "mongoose";
 import { Interface } from "readline";
+import bcrypt from "bcrypt";
 
 const createToken = (id: any) => {
   return jwt.sign({ id }, "76149494ABMICTU", {
@@ -60,6 +61,30 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = (req: Request, res: Response) => {
-  res.send("login page");
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  let user = await User.findOne({ email });
+
+  try {
+    if (user) {
+      let auth = await bcrypt.compare(password, user.password);
+
+      if (auth) {
+        let token = createToken(user._id);
+        res.cookie("token", token, {
+          httpOnly: true,
+          maxAge: 1000 * 3 * 24 * 60 * 60,
+        });
+        res.json(user);
+      } else {
+        throw Error("Invalid password");
+      }
+    } else {
+      throw Error(" Email not found");
+    }
+  } catch (err) {
+    let error = handleError(err);
+    res.status(401).json({ error });
+  }
 };

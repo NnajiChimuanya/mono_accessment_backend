@@ -2,29 +2,26 @@ import { Schema, model, Model, Document } from "mongoose";
 import IUser from "../interface/userInterface";
 import pkg from "validator";
 const { isEmail } = pkg;
-import bcrypt from "bcrypt"
-
-
+import bcrypt from "bcrypt";
 
 const UserSchema: Schema = new Schema({
-    email: {
-        type: String,
-        required: [true, "Please input email"],
-        unique: [true, "Email already exists"],
-    },
-    password: {
-        type: String,
-        required: [true, "Please enter password"],
-       
-    },
-})
+  email: {
+    type: String,
+    required: [true, "Please input email"],
+    unique: [true, "Email already exists"],
+  },
+  password: {
+    type: String,
+    required: [true, "Please enter password"],
+  },
+});
 
-UserSchema.pre<IUser>("save", async function(next) {
- const salt = await bcrypt.genSalt()
- this.password = await bcrypt.hash(this.password, salt)
- next()
-})
+UserSchema.pre<IUser>("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
-const User = model<IUser>("User", UserSchema)
+const User = model<IUser>("User", UserSchema);
 
-export default User
+export default User;

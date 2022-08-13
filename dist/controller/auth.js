@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.signup = void 0;
 const userModel_1 = __importDefault(require("../model/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const createToken = (id) => {
     return jsonwebtoken_1.default.sign({ id }, "76149494ABMICTU", {
         expiresIn: 3 * 24 * 60 * 60,
@@ -61,7 +62,31 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.signup = signup;
-const login = (req, res) => {
-    res.send("login page");
-};
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    let user = yield userModel_1.default.findOne({ email });
+    try {
+        if (user) {
+            let auth = yield bcrypt_1.default.compare(password, user.password);
+            if (auth) {
+                let token = createToken(user._id);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    maxAge: 1000 * 3 * 24 * 60 * 60,
+                });
+                res.json(user);
+            }
+            else {
+                throw Error("Invalid password");
+            }
+        }
+        else {
+            throw Error(" Email not found");
+        }
+    }
+    catch (err) {
+        let error = handleError(err);
+        res.status(401).json({ error });
+    }
+});
 exports.login = login;
