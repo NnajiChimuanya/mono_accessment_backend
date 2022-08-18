@@ -106,6 +106,84 @@ app.post("/code/unlink/:id", (req: Request, res: Response) => {
     });
 });
 
+app.get("/code/statement/:id", (req: Request, res: Response) => {
+  let id = req.params["id"];
+
+  let config = {
+    method: "get",
+    url: `https://api.withmono.com/accounts/${id}/statement?period=last6months`,
+    headers: {
+      "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
+app.get("/code/expenses/:id", (req: Request, res: Response) => {
+  let id = req.params["id"];
+
+  let config = {
+    method: "get",
+    url: `https://api.withmono.com/accounts/${id}/debits`,
+    headers: {
+      "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
+app.get("/code/wallets/:id", (req: Request, res: Response) => {
+  let id = req.params["id"];
+
+  let config = {
+    method: "get",
+    url: `https://api.withmono.com/users/stats/wallet`,
+    headers: {
+      "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
+app.get("/code/shareholder", (req: Request, res: Response) => {
+  let config = {
+    method: "get",
+    url: `https://api.withmono.com/v1/cac/company/6097094`,
+    headers: {
+      "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
 app.get("/", (req: Request, res: Response) =>
   res.send("This is the begining of the mono backend")
 );

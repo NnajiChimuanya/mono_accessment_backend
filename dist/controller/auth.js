@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.signup = void 0;
+exports.logout = exports.login = exports.signup = void 0;
 const userModel_1 = __importDefault(require("../model/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -56,7 +56,11 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: true,
             maxAge: 1000 * 3 * 24 * 60 * 60,
         });
-        res.status(200).json({ user: newUser });
+        res.cookie("email", newUser.email, {
+            httpOnly: true,
+            maxAge: 1000 * 3 * 24 * 60 * 60,
+        });
+        res.status(200).json({ status: "SUCCESS" });
     }
     catch (error) {
         let errors = handleError(error);
@@ -76,7 +80,11 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     httpOnly: true,
                     maxAge: 1000 * 3 * 24 * 60 * 60,
                 });
-                res.json(user);
+                res.cookie("userEmail", user.email, {
+                    httpOnly: true,
+                    maxAge: 1000 * 3 * 24 * 60 * 60,
+                });
+                res.status(200).json({ status: "SUCCESS" });
             }
             else {
                 throw Error("Invalid password");
@@ -92,3 +100,10 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.cookie("token", "", { maxAge: 1 });
+    res.json({
+        status: "logged out",
+    });
+});
+exports.logout = logout;

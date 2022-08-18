@@ -56,7 +56,11 @@ export const signup = async (req: Request, res: Response) => {
       httpOnly: true,
       maxAge: 1000 * 3 * 24 * 60 * 60,
     });
-    res.status(200).json({ user: newUser });
+    res.cookie("email", newUser.email, {
+      httpOnly: true,
+      maxAge: 1000 * 3 * 24 * 60 * 60,
+    });
+    res.status(200).json({ status: "SUCCESS" });
   } catch (error: any) {
     let errors = handleError(error);
     res.status(401).json({ errors });
@@ -78,7 +82,11 @@ export const login = async (req: Request, res: Response) => {
           httpOnly: true,
           maxAge: 1000 * 3 * 24 * 60 * 60,
         });
-        res.json(user);
+        res.cookie("userEmail", user.email, {
+          httpOnly: true,
+          maxAge: 1000 * 3 * 24 * 60 * 60,
+        });
+        res.status(200).json({ status: "SUCCESS" });
       } else {
         throw Error("Invalid password");
       }
@@ -89,4 +97,11 @@ export const login = async (req: Request, res: Response) => {
     let error = handleError(err);
     res.status(401).json({ error });
   }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  res.cookie("token", "", { maxAge: 1 });
+  res.json({
+    status: "logged out",
+  });
 };
