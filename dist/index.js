@@ -11,6 +11,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const monoRouter_js_1 = __importDefault(require("./routes/monoRouter.js"));
+const port = process.env.PORT || 3001;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
@@ -30,4 +31,4 @@ catch (err) {
 app.get("/", (req, res) => res.send("This is the begining of the mono backend"));
 app.use("/auth", authRouter_js_1.default);
 app.use("/code", monoRouter_js_1.default);
-app.listen(3001, () => console.log("Now listening"));
+app.listen(port, () => console.log("Now listening"));

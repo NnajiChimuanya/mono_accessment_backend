@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import axios from "axios";
 import monoRouter from "./routes/monoRouter.js";
+const port = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json());
@@ -36,4 +37,4 @@ app.use("/auth", authRouter);
 
 app.use("/code", monoRouter);
 
-app.listen(3001, () => console.log("Now listening"));
+app.listen(port, () => console.log("Now listening"));
