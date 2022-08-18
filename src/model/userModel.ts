@@ -14,6 +14,15 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: [true, "Please enter password"],
   },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  code: {
+    type: String,
+  },
 });
 
 UserSchema.pre<IUser>("save", async function (next) {

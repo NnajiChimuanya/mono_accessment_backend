@@ -42,12 +42,14 @@ const handleError = (err: any) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, firstName, lastName } = req.body;
 
   try {
     const newUser = await User.create({
       email,
       password,
+      firstName,
+      lastName,
     });
     const token = createToken(newUser._id);
     res.cookie("token", token, {

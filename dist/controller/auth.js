@@ -43,11 +43,13 @@ const handleError = (err) => {
     return error;
 };
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
     try {
         const newUser = yield userModel_1.default.create({
             email,
             password,
+            firstName,
+            lastName,
         });
         const token = createToken(newUser._id);
         res.cookie("token", token, {
