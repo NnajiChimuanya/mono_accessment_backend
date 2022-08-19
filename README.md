@@ -32,11 +32,11 @@
 
 ### POST : `/auth/login`
 
-### headers
+headers
 
         Content-Type : application/json
 
-### body
+body
 
     {
       email,
@@ -47,13 +47,13 @@
 
 ### POST : `/auth/signup`
 
-### headers
+headers
 
        {
          Content-Type : application/json
        }
 
-### body
+body
 
     {
       email,
@@ -66,7 +66,7 @@
 
 ### POST : `/code/:auth`
 
-### headers
+headers
 
     {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@
 
 ### POST : `/code/transaction/:id`
 
-### headers
+headers
 
     {
 
@@ -88,7 +88,7 @@
 
 ### POST : `/code/unlink/:id`
 
-### headers
+headers
 
     {
 
@@ -99,7 +99,7 @@
 
 ### GET : `/code/statement/:id`
 
-### headers
+headers
 
     {
 
@@ -110,7 +110,7 @@
 
 ### GET : `/code/expenses/:id`
 
-### headers
+headers
 
     {
 
@@ -121,7 +121,7 @@
 
 ### GET : `/code/wallets/:id`
 
-### headers
+headers
 
     {
 
