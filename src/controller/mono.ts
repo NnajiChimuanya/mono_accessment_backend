@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const auth = (req: Request, res: Response) => {
   let code = req.params["auth"];
+  console.log(code);
   let data = JSON.stringify({
     code: code,
   });
@@ -48,6 +49,25 @@ export const transactions = (req: Request, res: Response) => {
   let config = {
     method: "get",
     url: `https://api.withmono.com/accounts/${id}/transactions`,
+    headers: {
+      "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.json(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
+export const dataSync = (req: Request, res: Response) => {
+  let id = req.params["_id"];
+  let config = {
+    method: "post",
+    url: `https://api.withmono.com/accounts/${id}/sync`,
     headers: {
       "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
     },

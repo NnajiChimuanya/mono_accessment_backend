@@ -22,23 +22,33 @@ const createToken = (id) => {
     });
 };
 const handleError = (err) => {
-    let error = { email: "", password: "" };
+    let error = { error: "An error occurred" };
     //debugging for viewing error
     //console.log(err.message, err.code);
     if (err.code === 11000) {
-        error["email"] = "email already exists";
+        error = {
+            error: "email already exists",
+        };
     }
     if (err.message === " Email not found") {
-        error["email"] = "email does not exist";
+        error = {
+            error: "email does not exist",
+        };
     }
     if (err.message === "Invalid password") {
-        error["password"] = "invalid password";
+        error = {
+            error: "Invalid password",
+        };
     }
     if (err.message.includes("Please enter password")) {
-        error["password"] = "Enter password password";
+        error = {
+            error: "please enter password",
+        };
     }
     if (err.message.includes("Email already exists")) {
-        error["email"] = "Email already exists";
+        error = {
+            error: "Email already exists",
+        };
     }
     return error;
 };
@@ -64,7 +74,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         let errors = handleError(error);
-        res.status(401).json({ errors });
+        res.json({ errors });
     }
 });
 exports.signup = signup;
@@ -96,7 +106,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         let error = handleError(err);
-        res.status(401).json({ error });
+        res.json({ error });
     }
 });
 exports.login = login;
