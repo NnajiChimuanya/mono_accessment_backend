@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://mono-accessment-frontend.vercel.app",
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
   })
@@ -23,7 +23,9 @@ app.use(
 // "https://mono-accessment-frontend.vercel.app"
 
 try {
-  mongoose.connect("mongodb://localhost:27017/mono");
+  mongoose.connect(
+    "mongodb+srv://Muanyachi:76149494ABMICTU@mono.pkmxyad.mongodb.net/?retryWrites=true&w=majority"
+  );
   console.log("Connected");
 } catch (err) {
   console.log(err);
