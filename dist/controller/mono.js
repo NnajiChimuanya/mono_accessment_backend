@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shareholder = exports.wallets = exports.expenses = exports.statement = exports.unlink = exports.transactions = exports.auth = void 0;
+exports.shareholder = exports.wallets = exports.expenses = exports.statement = exports.unlink = exports.dataSync = exports.transactions = exports.auth = void 0;
 const axios_1 = __importDefault(require("axios"));
 const auth = (req, res) => {
     let code = req.params["auth"];
+    console.log(code);
     let data = JSON.stringify({
         code: code,
     });
@@ -61,6 +62,24 @@ const transactions = (req, res) => {
     });
 };
 exports.transactions = transactions;
+const dataSync = (req, res) => {
+    let id = req.params["_id"];
+    let config = {
+        method: "post",
+        url: `https://api.withmono.com/accounts/${id}/sync`,
+        headers: {
+            "mono-sec-key": "test_sk_EWhGo3D4muvGL47S3e2l",
+        },
+    };
+    (0, axios_1.default)(config)
+        .then(function (response) {
+        res.json(response.data);
+    })
+        .catch(function (error) {
+        console.log(error);
+    });
+};
+exports.dataSync = dataSync;
 const unlink = (req, res) => {
     let id = req.params["id"];
     let config = {

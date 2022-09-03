@@ -20,6 +20,7 @@ app.use((0, cors_1.default)({
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
 }));
+// "https://mono-accessment-frontend.vercel.app"
 try {
     mongoose_1.default.connect("mongodb+srv://Muanyachi:76149494ABMICTU@mono.pkmxyad.mongodb.net/?retryWrites=true&w=majority");
     console.log("Connected");

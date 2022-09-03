@@ -20,6 +20,8 @@ app.use(
   })
 );
 
+// "https://mono-accessment-frontend.vercel.app"
+
 try {
   mongoose.connect(
     "mongodb+srv://Muanyachi:76149494ABMICTU@mono.pkmxyad.mongodb.net/?retryWrites=true&w=majority"

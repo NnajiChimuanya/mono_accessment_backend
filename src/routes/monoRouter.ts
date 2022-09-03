@@ -7,6 +7,7 @@ import {
   expenses,
   wallets,
   shareholder,
+  dataSync,
 } from "../controller/mono";
 
 const monoRouter: Router = express.Router();
@@ -14,6 +15,8 @@ const monoRouter: Router = express.Router();
 monoRouter.post("/:auth", auth);
 
 monoRouter.post("/transactions/:_id", transactions);
+
+monoRouter.post("/dataSync/:_id", dataSync);
 
 monoRouter.post("/unlink/:id", unlink);
 
